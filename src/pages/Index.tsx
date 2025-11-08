@@ -11,6 +11,7 @@ import Icon from "@/components/ui/icon";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("home");
+  const [betaSubTab, setBetaSubTab] = useState("profile");
   const [emotionLevel, setEmotionLevel] = useState(65);
   const [phoenixCoins, setPhoenixCoins] = useState(342);
   const [newEntry, setNewEntry] = useState("");
@@ -74,17 +75,9 @@ const Index = () => {
               <Icon name="Home" className="mr-2" size={18} />
               Главная
             </Button>
-            <Button variant="ghost" onClick={() => setActiveTab("profile")}>
-              <Icon name="User" className="mr-2" size={18} />
-              Профиль
-            </Button>
-            <Button variant="ghost" onClick={() => setActiveTab("diary")}>
-              <Icon name="BookOpen" className="mr-2" size={18} />
-              Дневник
-            </Button>
-            <Button variant="ghost" onClick={() => setActiveTab("psychologists")}>
-              <Icon name="Users" className="mr-2" size={18} />
-              Психологи
+            <Button variant="ghost" onClick={() => setActiveTab("beta")}>
+              <Icon name="Sparkles" className="mr-2" size={18} />
+              Beta версия
             </Button>
           </div>
 
@@ -107,26 +100,10 @@ const Index = () => {
                 <Button 
                   variant="ghost" 
                   className="justify-start text-base"
-                  onClick={() => { setActiveTab("profile"); setMobileMenuOpen(false); }}
+                  onClick={() => { setActiveTab("beta"); setMobileMenuOpen(false); }}
                 >
-                  <Icon name="User" className="mr-3" size={20} />
-                  Профиль
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  className="justify-start text-base"
-                  onClick={() => { setActiveTab("diary"); setMobileMenuOpen(false); }}
-                >
-                  <Icon name="BookOpen" className="mr-3" size={20} />
-                  Дневник
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  className="justify-start text-base"
-                  onClick={() => { setActiveTab("psychologists"); setMobileMenuOpen(false); }}
-                >
-                  <Icon name="Users" className="mr-3" size={20} />
-                  Психологи
+                  <Icon name="Sparkles" className="mr-3" size={20} />
+                  Beta версия
                 </Button>
               </div>
             </SheetContent>
@@ -149,11 +126,11 @@ const Index = () => {
                 Превращайте хаотичные переживания в понятный маршрут самопознания.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center mt-6 md:mt-8 px-4">
-                <Button size="lg" className="bg-primary hover:bg-primary/90 w-full sm:w-auto" onClick={() => setActiveTab("profile")}>
+                <Button size="lg" className="bg-primary hover:bg-primary/90 w-full sm:w-auto" onClick={() => { setActiveTab("beta"); setBetaSubTab("profile"); }}>
                   Начать сейчас
                   <Icon name="ArrowRight" className="ml-2" size={18} />
                 </Button>
-                <Button size="lg" variant="outline" className="w-full sm:w-auto" onClick={() => setActiveTab("psychologists")}>
+                <Button size="lg" variant="outline" className="w-full sm:w-auto" onClick={() => { setActiveTab("beta"); setBetaSubTab("psychologists"); }}>
                   Найти психолога
                 </Button>
               </div>
@@ -199,7 +176,32 @@ const Index = () => {
           </div>
         )}
 
-        {activeTab === "profile" && (
+        {activeTab === "beta" && (
+          <div className="space-y-4 md:space-y-6 animate-fade-in">
+            <div className="flex items-center gap-2 mb-4">
+              <Badge variant="secondary" className="text-sm">
+                <Icon name="Sparkles" className="mr-1" size={14} />
+                Beta версия
+              </Badge>
+            </div>
+
+            <Tabs value={betaSubTab} onValueChange={setBetaSubTab} className="w-full">
+              <TabsList className="grid w-full grid-cols-3 mb-6">
+                <TabsTrigger value="profile" className="text-sm md:text-base">
+                  <Icon name="User" className="mr-2" size={16} />
+                  Профиль
+                </TabsTrigger>
+                <TabsTrigger value="diary" className="text-sm md:text-base">
+                  <Icon name="BookOpen" className="mr-2" size={16} />
+                  Дневник
+                </TabsTrigger>
+                <TabsTrigger value="psychologists" className="text-sm md:text-base">
+                  <Icon name="Users" className="mr-2" size={16} />
+                  Психологи
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="profile" className="mt-0">
           <div className="space-y-4 md:space-y-6 animate-fade-in max-w-4xl mx-auto">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <h2 className="text-2xl md:text-3xl font-bold">Мой профиль</h2>
@@ -278,10 +280,9 @@ const Index = () => {
                 </div>
               </CardContent>
             </Card>
-          </div>
-        )}
+              </TabsContent>
 
-        {activeTab === "diary" && (
+              <TabsContent value="diary" className="mt-0">
           <div className="space-y-4 md:space-y-6 animate-fade-in max-w-4xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold">Дневник эмоций</h2>
 
@@ -345,10 +346,9 @@ const Index = () => {
                 </Card>
               ))}
             </div>
-          </div>
-        )}
+              </TabsContent>
 
-        {activeTab === "psychologists" && (
+              <TabsContent value="psychologists" className="mt-0">
           <div className="space-y-4 md:space-y-6 animate-fade-in">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <h2 className="text-2xl md:text-3xl font-bold">Верифицированные психологи</h2>
@@ -415,6 +415,9 @@ const Index = () => {
                 </div>
               </CardContent>
             </Card>
+          </div>
+              </TabsContent>
+            </Tabs>
           </div>
         )}
       </div>
